@@ -12,7 +12,7 @@ class MongoFriend
         $this->_config = $config;
     }
 
-    public function table(string $name)
+    public function table(string $name): MongoFriendTable
     {
         $collection = (new MongoDBClient)->selectDatabase($this->_config['dbname'])->selectCollection($name);
 
