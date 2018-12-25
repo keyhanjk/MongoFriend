@@ -20,19 +20,18 @@ class MongoFriendTable
         return (string) $result->getInsertedId();
     }
 
-    public function find(array $where = []): MongoFriendResult
+    public function find(array $filter = [], array $options = [])
     {
-        return new MongoFriendResult("find", $this->_collection->find($where));
+        return $this->_collection->find($filter, $options);
     }
 
-    public function update(array $where = []): MongoFriendResult
+    public function update(array $filter = [], array $changes = [])
     {
-        return new MongoFriendResult("update", $this->_collection->update($where));
+        return $this->_collection->update($filter, ['$set' => $changes]);
     }
 
-    public function delete(array $where = []): MongoFriendResult
+    public function delete(array $filter = [])
     {
-        return new MongoFriendResult("delete", $this->_collection->delete($where));
+        return $this->_collection->deleteMany($filter);
     }
-
 }
