@@ -17,7 +17,4 @@ $users = $mongo->table("users");
 
 $result = $users->find(["age" => "27"])->offset(1);
 $result->display();
-// $result = $users->find()->limit(1, 10)->sort(["id" => "asc"])->result();
-// $result = $users->find()->where("id > 100")->either("created_dt < 200")->get();
-// $result = $users->find()->where("id > 100")->also("created_dt < 200")->limit(1, 10)->get();
-// $result = $users->find()->where("id > 100")->also("created_dt < 200")->limit(1, 10)->sort("id")->get();
+// $result = $users->find()->limit(1, 10)->sort(["id" => "asc"])->result(); 
