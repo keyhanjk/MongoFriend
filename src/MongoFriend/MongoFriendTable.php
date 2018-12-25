@@ -2,78 +2,37 @@
 
 namespace MongoFriend;
 
+use MongoDB\Collection as MongoDBCollection;
+
 class MongoFriendTable
 {
     private $_collection;
-    private $_query = "query>";
-    public function __construct($collection)
+    private $_query = [];
+
+    public function __construct(MongoDBCollection $collection)
     {
         $this->_collection = $collection;
     }
 
-    //insert
-    public function add(array $data)
+    public function add(array $data): string
     {
         $result = $this->_collection->insertOne($data);
         return (string) $result->getInsertedId();
     }
 
-    public function find(): MongoFriendTable
+    public function find(array $where = []): MongoFriendResult
     {
-        $this->_query .= "find,";
-        return $this;
+        return new MongoFriendResult("find", $this->_collection->find($where));
     }
 
-    public function where(string $condition): MongoFriendTable
+    public function update(array $where = []): MongoFriendResult
     {
-        $this->_query .= "where,";
-        return $this;
+        return new MongoFriendResult("update", $this->_collection->update($where));
     }
 
-    public function limit(int $count, int $offset = 0): MongoFriendTable
+    public function delete(array $where = []): MongoFriendResult
     {
-        $this->_query .= "limit,";
-        return $this;
+        return new MongoFriendResult("delete", $this->_collection->delete($where));
     }
 
-    public function sort(array $cols): MongoFriendTable
-    {
-        $this->_query .= "sort,";
-        return $this;
-    }
-
-    public function either(string $condition): MongoFriendTable
-    {
-        $this->_query .= "either,";
-        return $this;
-    }
-
-    public function also(string $condition): MongoFriendTable
-    {
-        $this->_query .= "also,";
-        return $this;
-    }
-
-    public function result(): MongoFriendResult
-    {
-        $result = $this->_collection->find([
-            "firstname" => "keyhan",
-        ]);
-
-        // $this->_query .= "find,";
-        // return $this->_query;
-        return new MongoFriendResult($result);
-    }
-
-    public function update($name)
-    {
-        // if ( func_num_args() > 0 ){
-        //     var_dump(func_get_args());
-        // }
-    }
-
-    public function delete($name)
-    {
-
-    }
 }
