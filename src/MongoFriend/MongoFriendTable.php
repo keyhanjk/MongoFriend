@@ -20,6 +20,13 @@ class MongoFriendTable
         return (string) $result->getInsertedId();
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array $filter
+     * @param array $options
+     * @return void
+     */
     public function find(array $filter = [], array $options = [])
     {
         return $this->_collection->find($filter, $options);
@@ -27,9 +34,15 @@ class MongoFriendTable
 
     public function update(array $filter = [], array $changes = [])
     {
-        return $this->_collection->update($filter, ['$set' => $changes]);
+        return $this->_collection->updateMany($filter, ['$set' => $changes]);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array $filter
+     * @return void
+     */
     public function delete(array $filter = [])
     {
         return $this->_collection->deleteMany($filter);
