@@ -20,6 +20,10 @@ class ComposerStaticInita1bbefd9b63a8f382716b9c559c7651b
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'M' => 
         array (
             'MongoFriend\\' => 12,
@@ -43,9 +47,13 @@ class ComposerStaticInita1bbefd9b63a8f382716b9c559c7651b
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'MongoFriend\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/MongoFriend',
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'MongoDB\\' => 
         array (
@@ -67,6 +75,17 @@ class ComposerStaticInita1bbefd9b63a8f382716b9c559c7651b
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
+            ),
+            'PHPSQLParser\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/greenlion/php-sql-parser/src',
+            ),
+        ),
+        'A' => 
+        array (
+            'Analog' => 
+            array (
+                0 => __DIR__ . '/..' . '/analog/analog/lib',
             ),
         ),
     );

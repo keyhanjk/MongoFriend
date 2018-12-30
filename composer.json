@@ -1,6 +1,7 @@
 {
     "require": {
-        "mongodb/mongodb": "^1.4"
+        "mongodb/mongodb": "^1.4",
+        "greenlion/php-sql-parser": "^4.2"
     },
     "autoload": {
         "psr-4": {

@@ -1,15 +1,6 @@
 <?php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
-
-use MongoFriend\MongoFriend;
-
-$mongo = new MongoFriend([
-    'host' => 'localhost',
-    'dbname' => 'db_mihan_monitor',
-    'uname' => '',
-    'upass' => '',
-]);
+namespace Examples;
 
 function generateFakeUser()
 {

@@ -7,4 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'PHPSQLParser\\' => array($vendorDir . '/greenlion/php-sql-parser/src'),
+    'Analog' => array($vendorDir . '/analog/analog/lib'),
 );
