@@ -4,47 +4,102 @@ namespace Examples;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use MongoFriend\MongoFriend;
-use PHPSQLParser;
-
-$mongo = new MongoFriend([
-    'host' => 'localhost',
-    'dbname' => 'db_mihan_monitor',
-    'uname' => '',
-    'upass' => '',
-]);
+use PHPSQLParser\PHPSQLParser;
 
 error_reporting(E_ALL ^ E_WARNING);
 
-$sql1 = 'SELECT a,b,c
-          from some_table an_alias
-	  join `another` as `another table` using(id)
-	where d > 5;';
+$sql1 = "SELECT a,b,c
+          FROM table1
+          WHERE a > 5 AND b < 4;";
 
-$sql2 = 'SELECT a,b,c
-          from some_table an_alias, table2
-	  join (select d, max(f) max_f
-                 from some_table
-                where id = 37
-                group by d) `subqry` on subqry.d = an_alias.d
-	where d > 5;';
+$sql2 = "DELETE FROM table1
+          WHERE a > 5 AND b < 4;";
 
-// $sql3 = "SELECT sum(a) S,b,c
-//           from some_table an_alias
-//         where d > 5 AND ('fname'='lname%' OR age > 34);";
+$sql3 = "UPDATE table1
+          SET age = 4, grade = grade + 78
+          WHERE a > 5 AND b < 4;";
 
-$sql4 = "SELECT STRAIGHT_JOIN a, b, c
-FROM some_table an_alias
-WHERE d > 5;";
+$sql4 = "INSERT INTO table1
+          (fname, lname, age)
+          VALUES
+          ('keyhan', 'jk', 30);";
 
-$sql = $sql4;
+$sql5 = "SELECT COUNT(id), fname, lname
+          FROM table1
+          WHERE a > 5 AND (b < 4 OR id = 5 AND age > 70);";
+
+function selectPart($sqlPart)
+{
+    foreach ($sqlPart as $part) {
+        if ($part['expr_type'] == 'colref') {
+            print "|" . $part['no_quotes']['parts'][0] . "\n";
+        } else if ($part['expr_type'] == 'aggregate_function') {
+            $subTree = $part['sub_tree'][0]['base_expr'];
+            print "|" . $part['base_expr'] . " " . $subTree . "\n";
+        }
+    }
+}
+
+function fromPart($sqlPart)
+{
+    foreach ($sqlPart as $part) {
+        if ($part['expr_type'] == 'table') {
+            print "|" . $part['table'] . "\n";
+        }
+    }
+}
+
+function deletePart($sqlPart)
+{
+
+}
+
+function wherePart($sqlPart, $i = 1)
+{
+    foreach ($sqlPart as $part) {
+        if ($part['expr_type'] == 'colref') {
+            print str_repeat('|', $i) . $part['no_quotes']['parts'][0] . "\n";
+        } else if ($part['expr_type'] == 'operator') {
+            print str_repeat('|', $i) . $part['base_expr'] . "\n";
+        } else if ($part['expr_type'] == 'const') {
+            print str_repeat('|', $i) . $part['base_expr'] . "\n";
+        } else if ($part['expr_type'] == 'bracket_expression') {
+            wherePart($part['sub_tree'], $i + 1);
+        }
+    }
+}
+
+$sql = $sql5;
 echo $sql . "\n";
 $parser = new PHPSQLParser();
 //print_r($parser->parsed);
 $parsed = $parser->parse($sql, true);
 
-$a = json_encode($parsed['FROM'], JSON_PRETTY_PRINT);
+foreach ($parsed as $type => $parts) {
+    print "$type\n";
+    if ($type == 'SELECT') {
+        selectPart($parts);
+    } else if ($type == 'FROM') {
+        fromPart($parts);
+    } else if ($type == 'DELETE') {
+        deletePart($parts);
+    } else if ($type == 'WHERE') {
+        wherePart($parts);
+    }
+}
+
+//where
+
+//$a = json_encode($parsed['FROM'], JSON_PRETTY_PRINT);
 $a = json_encode($parsed, JSON_PRETTY_PRINT);
 print $a;
 
 error_reporting(E_ALL);
+
+// use MongoFriend\MongoFriend;
+// $mongo = new MongoFriend([
+//     'host' => 'localhost',
+//     'dbname' => 'db_mihan_monitor',
+//     'uname' => '',
+//     'upass' => '',
+// ]);
