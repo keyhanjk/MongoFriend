@@ -9,7 +9,7 @@ class MongoFriend
     private $_config;
     public function __construct(array $config)
     {
-        $this->_config = $config;
+        $this->_config = $config2;
     }
 
     public function table(string $name): MongoFriendTable
